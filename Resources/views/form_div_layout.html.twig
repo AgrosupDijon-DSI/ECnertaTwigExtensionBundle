@@ -1,0 +1,20 @@
+{# empty Twig template #}
+{% extend '::form_div_layout.html.twig' %}
+
+{% block form_label_help %}
+{% spaceless %}
+    {% if required %}
+        {% set attr = attr|merge({'class': attr.class|default('') ~ ' required'}) %}
+    {% endif %}
+    <label{% for attrname,attrvalue in attr %} {{attrname}}="{{attrvalue}}"{% endfor %}>{{ label|trans }}</label>
+{% endspaceless %}
+{% endblock %}
+    
+{% block generic_label %}
+{% spaceless %}
+    {% if required %}
+        {% set attr = attr|merge({'class': attr.class|default('') ~ ' required'}) %}
+    {% endif %}
+    <label{% for attrname,attrvalue in attr %} {{attrname}}="{{attrvalue}}"{% endfor %}>{{ label|trans }}{% if required %}<span class="required" title="Ce champ est obligatoire">*</span>{% endif %}</label>
+{% endspaceless %}
+{% endblock %}
