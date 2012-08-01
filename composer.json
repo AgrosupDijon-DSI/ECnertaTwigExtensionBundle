@@ -1,0 +1,21 @@
+{
+    "name": "ECnerta/twig-extension-bundle",
+    "description": "Twig extension for Symfony2 commonly used by ENcarta",
+    "keywords": ["twig"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Valérian Girard",
+            "email": "waldo2188@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.*",
+    },
+    "autoload": {
+        "psr-0": { "ECnerta\\Bundle\\TwigExtensionBundle": "" }
+    },
+    "target-dir": "ECnerta/Bundle/TwigExtensionBundle"
+}
+
