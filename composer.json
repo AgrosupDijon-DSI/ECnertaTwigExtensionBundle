@@ -1,13 +1,15 @@
 {
-    "name": "ECnerta/twig-extension-bundle",
-    "description": "Twig extension for Symfony2 commonly used by ENcarta",
+    "name": "ecnerta/twig-extension-bundle",
+    "description": "Twig extension for Symfony2 commonly used by Eduter/Cnerta",
     "keywords": ["twig"],
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
             "name": "Valérian Girard",
-            "email": "waldo2188@gmail.com"
+            "email": "waldo2188@gmail.com",
+            "homepage": "http://www.mon-beulogue.com",
+            "role": "Developer"
         }
     ],
     "require": {
