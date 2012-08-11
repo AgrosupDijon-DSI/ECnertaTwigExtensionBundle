@@ -5,21 +5,18 @@ namespace ECnerta\Bundle\TwigExtensionBundle\Twig\Extension;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormView;
 
-class MyTwigExtension extends \Twig_Extension
-{
+class MyTwigExtension extends \Twig_Extension {
 
     protected $container;
 
-    public function __construct(ContainerInterface $container)
-    {
+    public function __construct(ContainerInterface $container) {
         $this->container = $container;
     }
 
     /**
      * @inherited
      */
-    public function getFilters()
-    {
+    public function getFilters() {
         return array(
             'classMethodes' => new \Twig_Filter_Method($this, 'twig_classmethodes_filter'),
             'vardump' => new \Twig_Filter_Method($this, 'twig_vardump_filter'),
@@ -32,30 +29,27 @@ class MyTwigExtension extends \Twig_Extension
     /**
      * @inherited
      */
-    public function getFunctions()
-    {
+    public function getFunctions() {
         return array(
             'current_route_is' => new \Twig_Function_Method($this, 'currentRouteIs'),
+            'param' => new \Twig_Function_Method($this, 'param'),
         );
     }
 
     /**
      * @inherited
      */
-    public function getName()
-    {
+    public function getName() {
         return 'bodTwigExt';
     }
 
-  
     /**
      * Transforme une chaine en float
      *
      * @param \Twig_Environment $env
      * @param mixed $value
      */
-    public function twig_float_filter($value)
-    {
+    public function twig_float_filter($value) {
         $aFloat = floatval($value);
 
         if (count(($tab = explode(".", $aFloat))) >= 2) {
@@ -75,8 +69,7 @@ class MyTwigExtension extends \Twig_Extension
      * @param \Twig_Environment $env
      * @param mixed $value
      */
-    public function twig_printr_filter($value, $exitOrNot = TRUE)
-    {
+    public function twig_printr_filter($value, $exitOrNot = TRUE) {
         ob_start();
 
         echo "<pre>";
@@ -95,8 +88,7 @@ class MyTwigExtension extends \Twig_Extension
      * @param \Twig_Environment $env
      * @param mixed $value
      */
-    public function twig_vardump_filter($value, $exitOrNot = TRUE)
-    {
+    public function twig_vardump_filter($value, $exitOrNot = TRUE) {
         ob_start();
 
         echo "<pre>";
@@ -108,15 +100,13 @@ class MyTwigExtension extends \Twig_Extension
         }
         return ob_get_clean();
     }
-    
-    public function twig_filtre_shuffle(array $value)
-    {
+
+    public function twig_filtre_shuffle(array $value) {
         shuffle($value);
         return $value;
     }
 
-    public function twig_classmethodes_filter($value, $exitOrNot = TRUE)
-    {
+    public function twig_classmethodes_filter($value, $exitOrNot = TRUE) {
         ob_start();
 
         echo "<pre>";
@@ -136,8 +126,7 @@ class MyTwigExtension extends \Twig_Extension
      * @param type $parameters
      * @return boolean
      */
-    public function currentRouteIs($routes, $parameters = array())
-    {
+    public function currentRouteIs($routes, $parameters = array()) {
         $test = FALSE;
 
         if (!is_array($routes)) {
@@ -163,5 +152,18 @@ class MyTwigExtension extends \Twig_Extension
         return $test;
     }
 
-  
+    /**
+     * Retourne un paramètre contenue dans le parameterBag
+     * @param string $paramName
+     * @return string
+     */
+    public function param($paramName) {
+
+        if ($this->container->hasParameter($paramName)) {
+            return $this->container->getParameter($paramName);
+        } else {
+            throw new \InvalidArgumentException($paramName . " dosen't exist");
+        }
+    }
+
 }
