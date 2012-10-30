@@ -22,7 +22,9 @@ class MyTwigExtension extends \Twig_Extension {
             'vardump' => new \Twig_Filter_Method($this, 'twig_vardump_filter'),
             'printr' => new \Twig_Filter_Method($this, 'twig_printr_filter'),
             'float' => new \Twig_Filter_Method($this, 'twig_float_filter'),
-            'shuffle' => new \Twig_Filter_Method($this, 'twig_filtre_shuffle')
+            'shuffle' => new \Twig_Filter_Method($this, 'twig_filtre_shuffle'),
+            'octetToHuman' => new \Twig_Filter_Method($this, 'twig_filtre_octet_to_human'),
+            'secondToHuman' => new \Twig_Filter_Method($this, 'twig_filtre_second_to_human')
         );
     }
 
@@ -117,6 +119,46 @@ class MyTwigExtension extends \Twig_Extension {
             exit;
         }
         return ob_get_clean();
+    }
+
+    /**
+     * Convertie des octets en Ko, Mo, Go
+     * @param int $bytes
+     * @return string
+     */
+    public function twig_filtre_octet_to_human($bytes) {
+
+        if ($bytes >= 1024 * 1024 * 1024) { // Go
+            return round(($bytes / 1024) / 1024 / 1024, 2) . " Go";
+        } elseif ($bytes >= 1024 * 1024) { // Mo
+            return round(($bytes / 1024) / 1024, 2) . " Mo";
+        } elseif ($bytes >= 1024) { // ko
+            return round(($bytes / 1024), 2) . " ko";
+        } elseif($bytes >= 1) { // octets
+            return $bytes . " octets";
+        }
+        return "";
+    }
+
+    public function twig_filtre_second_to_human($seconde) {
+
+        $tabTemps = array("jours" => 86400,
+            "Heures" => 3600,
+            "minutes" => 60,
+            "secondes" => 1);
+
+        $result = "";
+
+        foreach ($tabTemps as $uniteTemps => $nombreSecondesDansUnite) {
+            $$uniteTemps = floor($seconde / $nombreSecondesDansUnite);
+
+            $seconde = $seconde % $nombreSecondesDansUnite;
+
+            if ($$uniteTemps > 0)
+                $result .= $$uniteTemps . " $uniteTemps ";
+        }
+
+        return $result;
     }
 
     /**
